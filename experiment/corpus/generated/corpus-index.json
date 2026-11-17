@@ -1,0 +1,516 @@
+{
+  "schema": "urn:lajc-brokered-evidence-corpus-index:1.0",
+  "substrate": "external evidence-package signer/verifier runtime, resolved via $EATF_ROOT (path not recorded, for blind-review safety)",
+  "eatf_sign_version": "eatf-sign 0.1.3",
+  "signing_keys": {
+    "a": "bundled EATF dev RSA-4096 (test key)",
+    "b": "locally generated dev RSA keypair keys/dev-rsa-b (test key)"
+  },
+  "signature_families": [
+    "rsa-sha256"
+  ],
+  "issuer_key_bindings": {
+    "identity-root-a": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+    "action-root-a": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+    "identity-root-b": "a0bbd43e4b6cf04e19c90ac6c5a1140dea335b5f3aaba73c102ab56f0778350c",
+    "action-root-b": "a0bbd43e4b6cf04e19c90ac6c5a1140dea335b5f3aaba73c102ab56f0778350c"
+  },
+  "issuer_key_binding_note": "Issuer name -> SHA-256 of the public key that issuer is pinned to. Stands in for a trusted list: without it an issuer name is only self-declared metadata.",
+  "deviation_note": "Plan section 8.2 asks for two signature families; this run covers two independent signing keys within one family (RSA-SHA256). Recorded as a deviation.",
+  "tampered_entries": {
+    "N1": "response.txt"
+  },
+  "key_note": "All keys are dev/test keys; no production trust service is involved.",
+  "cases": [
+    {
+      "case_id": "P1",
+      "title": "positive: pair-a non-brokered offline",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "identity-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "P1-id1",
+          "signing_key": "a",
+          "path": "corpus/generated/P1/aep/p1-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "action-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "P1-act1",
+          "signing_key": "a",
+          "path": "corpus/generated/P1/aep/p1-act1.aep"
+        }
+      ]
+    },
+    {
+      "case_id": "P2",
+      "title": "positive: pair-b non-brokered (second issuer pair, second keypair)",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "a0bbd43e4b6cf04e19c90ac6c5a1140dea335b5f3aaba73c102ab56f0778350c",
+          "claimed_issuer": "identity-root-b",
+          "signed_under": "b",
+          "intended_key": "b",
+          "attestation_id": "P2-id1",
+          "signing_key": "b",
+          "path": "corpus/generated/P2/aep/p2-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "a0bbd43e4b6cf04e19c90ac6c5a1140dea335b5f3aaba73c102ab56f0778350c",
+          "claimed_issuer": "action-root-b",
+          "signed_under": "b",
+          "intended_key": "b",
+          "attestation_id": "P2-act1",
+          "signing_key": "b",
+          "path": "corpus/generated/P2/aep/p2-act1.aep"
+        }
+      ]
+    },
+    {
+      "case_id": "P3",
+      "title": "positive: cross-pair (identity root a, action root b)",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "identity-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "P3-id1",
+          "signing_key": "a",
+          "path": "corpus/generated/P3/aep/p3-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "a0bbd43e4b6cf04e19c90ac6c5a1140dea335b5f3aaba73c102ab56f0778350c",
+          "claimed_issuer": "action-root-b",
+          "signed_under": "b",
+          "intended_key": "b",
+          "attestation_id": "P3-act1",
+          "signing_key": "b",
+          "path": "corpus/generated/P3/aep/p3-act1.aep"
+        }
+      ]
+    },
+    {
+      "case_id": "P4",
+      "title": "positive: brokered via broker-eu-1 (pair a)",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "identity-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "P4-id1",
+          "signing_key": "a",
+          "path": "corpus/generated/P4/aep/p4-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "action-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "P4-act1",
+          "signing_key": "a",
+          "path": "corpus/generated/P4/aep/p4-act1.aep"
+        }
+      ]
+    },
+    {
+      "case_id": "P5",
+      "title": "positive: same action brokered via broker-eu-2 (transparency pair for P4)",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "identity-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "P5-id1",
+          "signing_key": "a",
+          "path": "corpus/generated/P5/aep/p5-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "action-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "P5-act1",
+          "signing_key": "a",
+          "path": "corpus/generated/P5/aep/p5-act1.aep"
+        }
+      ]
+    },
+    {
+      "case_id": "N1",
+      "title": "negative family 1: tampered payload (post-signature byte flip)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "eatf-package-invalid"
+      ],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "identity-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N1-id1",
+          "signing_key": "a",
+          "path": "corpus/generated/N1/aep/n1-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "action-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N1-act1",
+          "signing_key": "a",
+          "path": "corpus/generated/N1/aep/n1-act1.aep",
+          "tampered_entry": "response.txt"
+        }
+      ]
+    },
+    {
+      "case_id": "N2",
+      "title": "negative family 2: stale identity assertion (expired before verification time)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "identity-expired"
+      ],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "identity-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N2-id1",
+          "signing_key": "a",
+          "path": "corpus/generated/N2/aep/n2-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "action-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N2-act1",
+          "signing_key": "a",
+          "path": "corpus/generated/N2/aep/n2-act1.aep"
+        }
+      ]
+    },
+    {
+      "case_id": "N3",
+      "title": "negative family 3: broken chain pointer (action references absent identity)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "identity-hash-missing"
+      ],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "identity-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N3-id1",
+          "signing_key": "a",
+          "path": "corpus/generated/N3/aep/n3-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "action-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N3-act1",
+          "signing_key": "a",
+          "path": "corpus/generated/N3/aep/n3-act1.aep"
+        }
+      ]
+    },
+    {
+      "case_id": "N4",
+      "title": "negative family 4: missing long-term validation material",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "archive-material-insufficient"
+      ],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "identity-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N4-id1",
+          "signing_key": "a",
+          "path": "corpus/generated/N4/aep/n4-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "action-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N4-act1",
+          "signing_key": "a",
+          "path": "corpus/generated/N4/aep/n4-act1.aep"
+        }
+      ]
+    },
+    {
+      "case_id": "N5",
+      "title": "negative family 5: wrong-policy receipt (valid signature, unaccepted scope)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "scope-mismatch"
+      ],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "identity-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N5-id1",
+          "signing_key": "a",
+          "path": "corpus/generated/N5/aep/n5-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "action-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N5-act1",
+          "signing_key": "a",
+          "path": "corpus/generated/N5/aep/n5-act1.aep"
+        }
+      ]
+    },
+    {
+      "case_id": "N6",
+      "title": "negative family 6: broker downgrade (untrusted low-assurance broker)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "broker-policy-violation"
+      ],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "identity-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N6-id1",
+          "signing_key": "a",
+          "path": "corpus/generated/N6/aep/n6-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "action-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N6-act1",
+          "signing_key": "a",
+          "path": "corpus/generated/N6/aep/n6-act1.aep"
+        }
+      ]
+    },
+    {
+      "case_id": "N7",
+      "title": "negative family 7: expired algorithm profile",
+      "class": "negative",
+      "expected_verdict": "indeterminate",
+      "expected_reason_codes": [
+        "algorithm-unaccepted"
+      ],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "identity-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N7-id1",
+          "signing_key": "a",
+          "path": "corpus/generated/N7/aep/n7-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "action-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N7-act1",
+          "signing_key": "a",
+          "path": "corpus/generated/N7/aep/n7-act1.aep"
+        }
+      ]
+    },
+    {
+      "case_id": "N8",
+      "title": "negative family 8: key substitution (claims a trusted issuer, signed under a different root's key)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "issuer-key-mismatch"
+      ],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "identity-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N8-id1",
+          "signing_key": "a",
+          "path": "corpus/generated/N8/aep/n8-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "a0bbd43e4b6cf04e19c90ac6c5a1140dea335b5f3aaba73c102ab56f0778350c",
+          "claimed_issuer": "action-root-a",
+          "signed_under": "b",
+          "intended_key": "a",
+          "attestation_id": "N8-act1",
+          "signing_key": "b",
+          "path": "corpus/generated/N8/aep/n8-act1.aep"
+        }
+      ]
+    },
+    {
+      "case_id": "N9",
+      "title": "negative family 9: no action receipt (identity assertion only)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "action-receipt-missing"
+      ],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "84a9324b64820390a37b42d1a3b86a7ae917137846c98b1ebfcc5d0c2a70d9ac",
+          "claimed_issuer": "identity-root-a",
+          "signed_under": "a",
+          "intended_key": "a",
+          "attestation_id": "N9-id1",
+          "signing_key": "a",
+          "path": "corpus/generated/N9/aep/n9-id1.aep"
+        }
+      ]
+    },
+    {
+      "case_id": "N10",
+      "title": "negative family 10: wrong-policy receipt issued OUTSIDE the single-root baseline's trusted root (pair b)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "scope-mismatch"
+      ],
+      "verification_time": "2026-07-23T12:00:00Z",
+      "packages": [
+        {
+          "role": "identity",
+          "id": "id1",
+          "key_fingerprint": "a0bbd43e4b6cf04e19c90ac6c5a1140dea335b5f3aaba73c102ab56f0778350c",
+          "claimed_issuer": "identity-root-b",
+          "signed_under": "b",
+          "intended_key": "b",
+          "attestation_id": "N10-id1",
+          "signing_key": "b",
+          "path": "corpus/generated/N10/aep/n10-id1.aep"
+        },
+        {
+          "role": "action",
+          "id": "act1",
+          "key_fingerprint": "a0bbd43e4b6cf04e19c90ac6c5a1140dea335b5f3aaba73c102ab56f0778350c",
+          "claimed_issuer": "action-root-b",
+          "signed_under": "b",
+          "intended_key": "b",
+          "attestation_id": "N10-act1",
+          "signing_key": "b",
+          "path": "corpus/generated/N10/aep/n10-act1.aep"
+        }
+      ]
+    }
+  ]
+}

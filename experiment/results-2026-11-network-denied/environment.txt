@@ -1,0 +1,57 @@
+Network-denied repetition of the LAJC 503 evaluation, 17 November 2026
+(all times from date -u; paths relative, $W = an empty scratch directory)
+
+Sandbox checks   2026-11-17T20:11:26Z   sandbox-controls.txt
+Run started      2026-11-17T20:11:43Z
+Run ended        2026-11-17T20:11:51Z
+Exit code        0 (run_evaluation.py exits 0 only if the multi-root verifier passes 15/15)
+Standard error   empty (run-stderr.log, 0 bytes)
+
+Host             Linux 6.8.0-149-generic, x86_64
+node             v22.22.3   (the July record names v22.22.3)
+python3          3.12.3
+bubblewrap       0.9.0
+strace           6.8
+
+Runtime
+  Public repository github.com/tyche-institute/eatf-multiroot-softwarex,
+  tag eatf-multiroot-softwarex-v0.2.3, commit c421dadc1aacf77342f66aca15247994f0d10fb6,
+  directory papers/dependable-multiroot-agent-evidence/artifact/vendor/eatf
+  (git tree 3e6ed76caf21958e02284e66c09aaccd81bcab3f), taken with git archive from a
+  local clone of that repository.
+  1,597 entries: 1,586 files and 11 symbolic links; 67,305,160 bytes of files (64.2 MiB).
+  Versions in its package files: @eatf/verify-cli 0.1.1, @eatf/sign-cli 0.1.3,
+  @eatf/verifier 0.1.3. The July record names eatf-sign 0.1.3; the experiment README
+  names eatf-verify 0.1.1. Which build the July run used was not recorded.
+  SHA-256 of every file: runtime-SHA256SUMS.txt
+  (SHA-256 of that list: 20dcc01edb1a69195456ecc35c994d4f9966fa5242bb31b3e715274b4997ce74).
+
+Experiment
+  A copy of papers/brokered-trust/lajc2026/experiment, made just before the run. Before
+  the run the copy matched all 102 lines of
+  papers/brokered-trust/lajc2026/camera-ready-2026-11/evidence/experiment-SHA256SUMS-2026-11-17.txt.
+  After the run it matches 101 of them: the run rewrote results/evaluation.json in the
+  copy, and only its timing fields changed (comparison.md). The July files in
+  experiment/results/ were not touched.
+
+Commands
+  git --git-dir=<clone> archive eatf-multiroot-softwarex-v0.2.3 \
+      papers/dependable-multiroot-agent-evidence/artifact/vendor/eatf | tar -x -C "$W/runtime"
+  cp -r papers/brokered-trust/lajc2026/experiment "$W/experiment"
+  cd "$W/experiment"
+  EATF_ROOT="$W/runtime/papers/dependable-multiroot-agent-evidence/artifact/vendor/eatf" \
+      bwrap --unshare-net --dev-bind / / \
+      strace -f -e trace=%network -o "$W/net-trace.log" \
+      python3 scripts/run_evaluation.py </dev/null >"$W/run-stdout.log" 2>"$W/run-stderr.log"
+  python3 -I compare_with_july.py \
+      papers/brokered-trust/lajc2026/experiment/results/evaluation.json \
+      "$W/experiment/results/evaluation.json"
+
+Two differences from the commands planned in OPEN-DECISIONS.md, item 1b
+  - The trace filter is the strace class %network (socket, connect, bind, sendto,
+    sendmsg and the other network calls), a superset of the planned
+    connect, sendto and sendmsg.
+  - Standard input came from /dev/null. Node probes its standard input at start; when
+    that is an inherited socket, the probe shows up in the trace as getsockname and
+    getsockopt on descriptor 0 (first control in sandbox-controls.txt). It opens no
+    connection, and with /dev/null it does not occur (second control).

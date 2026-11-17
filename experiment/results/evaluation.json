@@ -1,0 +1,958 @@
+{
+  "schema": "urn:lajc-brokered-evidence-evaluation:1.0",
+  "verification_time": "2026-07-23T12:00:00Z",
+  "substrate": "external evidence-package signer/verifier runtime, resolved via $EATF_ROOT (path not recorded, for blind-review safety)",
+  "eatf_sign_version": "eatf-sign 0.1.3",
+  "signature_families": [
+    "rsa-sha256"
+  ],
+  "deviation_note": "Plan section 8.2 asks for two signature families; this run covers two independent signing keys within one family (RSA-SHA256). Recorded as a deviation.",
+  "cases_total": 15,
+  "vmr_cases_passed": 15,
+  "vmr_all_pass": true,
+  "discrimination": [
+    {
+      "verifier": "V-MR (rp-a)",
+      "true_accept": "5/5",
+      "true_nonaccept_on_negatives": "10/10",
+      "false_accepts_on_negatives": [],
+      "false_accept_rate": "0/10",
+      "false_rejects_on_positives": []
+    },
+    {
+      "verifier": "B3 single-root policy-bound",
+      "true_accept": "3/5",
+      "true_nonaccept_on_negatives": "10/10",
+      "false_accepts_on_negatives": [],
+      "false_accept_rate": "0/10",
+      "false_rejects_on_positives": [
+        "P2",
+        "P3"
+      ]
+    },
+    {
+      "verifier": "B1 one-registry",
+      "true_accept": "3/5",
+      "true_nonaccept_on_negatives": "2/10",
+      "false_accepts_on_negatives": [
+        "N2",
+        "N3",
+        "N4",
+        "N5",
+        "N6",
+        "N7",
+        "N8",
+        "N9"
+      ],
+      "false_accept_rate": "8/10",
+      "false_rejects_on_positives": [
+        "P2",
+        "P3"
+      ]
+    },
+    {
+      "verifier": "B2 signature-only",
+      "true_accept": "5/5",
+      "true_nonaccept_on_negatives": "1/10",
+      "false_accepts_on_negatives": [
+        "N2",
+        "N3",
+        "N4",
+        "N5",
+        "N6",
+        "N7",
+        "N8",
+        "N9",
+        "N10"
+      ],
+      "false_accept_rate": "9/10",
+      "false_rejects_on_positives": []
+    }
+  ],
+  "offline_verifiability": {
+    "vmr": "15/15",
+    "b2": "15/15",
+    "b1_resolved_offline": "12/15",
+    "note": "all verifier invocations ran with --offline-only; no network endpoints were contacted"
+  },
+  "federation_coverage": {
+    "note": "Distinct identity+action issuer pairs accepted, with no code change. Degenerate combos from cases lacking an action receipt are excluded (see is_real_combo).",
+    "vmr_accepted_combos": [
+      "identity-root-a+action-root-a",
+      "identity-root-a+action-root-b",
+      "identity-root-b+action-root-b"
+    ],
+    "b3_accepted_combos": [
+      "identity-root-a+action-root-a"
+    ],
+    "b1_accepted_combos": [
+      "identity-root-a+action-root-a"
+    ]
+  },
+  "federation_isolation_vmr_vs_b3": {
+    "note": "V-MR and B3 share the identical policy overlay and differ only in trusted-issuer breadth; every disagreement is therefore attributable to root count alone.",
+    "disagreements": [
+      {
+        "case_id": "P2",
+        "class": "positive",
+        "vmr": "accept",
+        "b3": "reject",
+        "b3_reason_codes": [
+          "action-issuer-untrusted",
+          "identity-issuer-untrusted"
+        ]
+      },
+      {
+        "case_id": "P3",
+        "class": "positive",
+        "vmr": "accept",
+        "b3": "reject",
+        "b3_reason_codes": [
+          "action-issuer-untrusted"
+        ]
+      }
+    ]
+  },
+  "broker_transparency": {
+    "P4": {
+      "broker_id": "broker-eu-1",
+      "broker_selected_identity_issuer": "identity-root-a",
+      "broker_selected_action_issuer": "action-root-a",
+      "broker_assurance": "high"
+    },
+    "P5": {
+      "broker_id": "broker-eu-2",
+      "broker_selected_identity_issuer": "identity-root-a",
+      "broker_selected_action_issuer": "action-root-a",
+      "broker_assurance": "high"
+    },
+    "routing_recoverable": true
+  },
+  "policy_portability": {
+    "divergent_cases": [
+      "P1",
+      "P3",
+      "P4",
+      "P5",
+      "N7"
+    ],
+    "all_divergence_policy_explained": true,
+    "detail": [
+      {
+        "case_id": "P1",
+        "rp_a": "accept",
+        "rp_b": "reject",
+        "diverges": true,
+        "rp_b_reason_codes": [
+          "action-issuer-untrusted",
+          "identity-issuer-untrusted"
+        ]
+      },
+      {
+        "case_id": "P2",
+        "rp_a": "accept",
+        "rp_b": "accept",
+        "diverges": false,
+        "rp_b_reason_codes": []
+      },
+      {
+        "case_id": "P3",
+        "rp_a": "accept",
+        "rp_b": "reject",
+        "diverges": true,
+        "rp_b_reason_codes": [
+          "identity-issuer-untrusted"
+        ]
+      },
+      {
+        "case_id": "P4",
+        "rp_a": "accept",
+        "rp_b": "reject",
+        "diverges": true,
+        "rp_b_reason_codes": [
+          "action-issuer-untrusted",
+          "broker-policy-violation",
+          "identity-issuer-untrusted"
+        ]
+      },
+      {
+        "case_id": "P5",
+        "rp_a": "accept",
+        "rp_b": "reject",
+        "diverges": true,
+        "rp_b_reason_codes": [
+          "action-issuer-untrusted",
+          "broker-policy-violation",
+          "identity-issuer-untrusted"
+        ]
+      },
+      {
+        "case_id": "N1",
+        "rp_a": "reject",
+        "rp_b": "reject",
+        "diverges": false,
+        "rp_b_reason_codes": [
+          "action-receipt-missing",
+          "canonical.bin does not match a supported canonical form.",
+          "eatf-package-invalid",
+          "identity-issuer-untrusted"
+        ]
+      },
+      {
+        "case_id": "N2",
+        "rp_a": "reject",
+        "rp_b": "reject",
+        "diverges": false,
+        "rp_b_reason_codes": [
+          "action-issuer-untrusted",
+          "identity-expired",
+          "identity-issuer-untrusted"
+        ]
+      },
+      {
+        "case_id": "N3",
+        "rp_a": "reject",
+        "rp_b": "reject",
+        "diverges": false,
+        "rp_b_reason_codes": [
+          "action-issuer-untrusted",
+          "identity-hash-missing",
+          "identity-issuer-untrusted"
+        ]
+      },
+      {
+        "case_id": "N4",
+        "rp_a": "reject",
+        "rp_b": "reject",
+        "diverges": false,
+        "rp_b_reason_codes": [
+          "action-issuer-untrusted",
+          "archive-material-insufficient",
+          "identity-issuer-untrusted"
+        ]
+      },
+      {
+        "case_id": "N5",
+        "rp_a": "reject",
+        "rp_b": "reject",
+        "diverges": false,
+        "rp_b_reason_codes": [
+          "action-issuer-untrusted",
+          "identity-issuer-untrusted",
+          "scope-mismatch"
+        ]
+      },
+      {
+        "case_id": "N6",
+        "rp_a": "reject",
+        "rp_b": "reject",
+        "diverges": false,
+        "rp_b_reason_codes": [
+          "action-issuer-untrusted",
+          "broker-policy-violation",
+          "identity-issuer-untrusted"
+        ]
+      },
+      {
+        "case_id": "N7",
+        "rp_a": "indeterminate",
+        "rp_b": "reject",
+        "diverges": true,
+        "rp_b_reason_codes": [
+          "action-issuer-untrusted",
+          "algorithm-unaccepted",
+          "identity-issuer-untrusted"
+        ]
+      },
+      {
+        "case_id": "N8",
+        "rp_a": "reject",
+        "rp_b": "reject",
+        "diverges": false,
+        "rp_b_reason_codes": [
+          "action-issuer-untrusted",
+          "identity-issuer-untrusted",
+          "issuer-key-mismatch"
+        ]
+      },
+      {
+        "case_id": "N9",
+        "rp_a": "reject",
+        "rp_b": "reject",
+        "diverges": false,
+        "rp_b_reason_codes": [
+          "action-receipt-missing",
+          "identity-issuer-untrusted"
+        ]
+      },
+      {
+        "case_id": "N10",
+        "rp_a": "reject",
+        "rp_b": "reject",
+        "diverges": false,
+        "rp_b_reason_codes": [
+          "scope-mismatch"
+        ]
+      }
+    ]
+  },
+  "per_case": [
+    {
+      "case_id": "P1",
+      "title": "positive: pair-a non-brokered offline",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "vmr_rp_a": {
+        "verdict": "accept",
+        "reason_codes": []
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-issuer-untrusted",
+          "identity-issuer-untrusted"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "accept",
+        "reason_codes": []
+      },
+      "issuer_combo": "identity-root-a+action-root-a",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 9251,
+        "eatf_verify_ms": 177.966,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "P2",
+      "title": "positive: pair-b non-brokered (second issuer pair, second keypair)",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "vmr_rp_a": {
+        "verdict": "accept",
+        "reason_codes": []
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "accept",
+        "reason_codes": []
+      },
+      "b1_one_registry": {
+        "verdict": "reject",
+        "reasons": [
+          "registry-unresolvable:action-root-b,identity-root-b"
+        ]
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-issuer-untrusted",
+          "identity-issuer-untrusted"
+        ]
+      },
+      "issuer_combo": "identity-root-b+action-root-b",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 9245,
+        "eatf_verify_ms": 178.308,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "P3",
+      "title": "positive: cross-pair (identity root a, action root b)",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "vmr_rp_a": {
+        "verdict": "accept",
+        "reason_codes": []
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "identity-issuer-untrusted"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "reject",
+        "reasons": [
+          "registry-unresolvable:action-root-b"
+        ]
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-issuer-untrusted"
+        ]
+      },
+      "issuer_combo": "identity-root-a+action-root-b",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 9259,
+        "eatf_verify_ms": 177.482,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "P4",
+      "title": "positive: brokered via broker-eu-1 (pair a)",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "vmr_rp_a": {
+        "verdict": "accept",
+        "reason_codes": []
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-issuer-untrusted",
+          "broker-policy-violation",
+          "identity-issuer-untrusted"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "accept",
+        "reason_codes": []
+      },
+      "issuer_combo": "identity-root-a+action-root-a",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 9472,
+        "eatf_verify_ms": 186.8,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "P5",
+      "title": "positive: same action brokered via broker-eu-2 (transparency pair for P4)",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "vmr_rp_a": {
+        "verdict": "accept",
+        "reason_codes": []
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-issuer-untrusted",
+          "broker-policy-violation",
+          "identity-issuer-untrusted"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "accept",
+        "reason_codes": []
+      },
+      "issuer_combo": "identity-root-a+action-root-a",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 9472,
+        "eatf_verify_ms": 185.305,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "N1",
+      "title": "negative family 1: tampered payload (post-signature byte flip)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "eatf-package-invalid"
+      ],
+      "vmr_rp_a": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-receipt-missing",
+          "canonical.bin does not match a supported canonical form.",
+          "eatf-package-invalid"
+        ]
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-receipt-missing",
+          "canonical.bin does not match a supported canonical form.",
+          "eatf-package-invalid",
+          "identity-issuer-untrusted"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "reject",
+        "reasons": [
+          "crypto-invalid"
+        ]
+      },
+      "b2_signature_only": {
+        "verdict": "reject",
+        "reasons": [
+          "crypto-invalid"
+        ]
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-receipt-missing",
+          "canonical.bin does not match a supported canonical form.",
+          "eatf-package-invalid"
+        ]
+      },
+      "issuer_combo": "identity-root-a+action-root-a",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 8081,
+        "eatf_verify_ms": 176.697,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "N2",
+      "title": "negative family 2: stale identity assertion (expired before verification time)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "identity-expired"
+      ],
+      "vmr_rp_a": {
+        "verdict": "reject",
+        "reason_codes": [
+          "identity-expired"
+        ]
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-issuer-untrusted",
+          "identity-expired",
+          "identity-issuer-untrusted"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "reject",
+        "reason_codes": [
+          "identity-expired"
+        ]
+      },
+      "issuer_combo": "identity-root-a+action-root-a",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 9245,
+        "eatf_verify_ms": 181.68,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "N3",
+      "title": "negative family 3: broken chain pointer (action references absent identity)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "identity-hash-missing"
+      ],
+      "vmr_rp_a": {
+        "verdict": "reject",
+        "reason_codes": [
+          "identity-hash-missing"
+        ]
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-issuer-untrusted",
+          "identity-hash-missing",
+          "identity-issuer-untrusted"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "reject",
+        "reason_codes": [
+          "identity-hash-missing"
+        ]
+      },
+      "issuer_combo": "identity-root-a+action-root-a",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 9272,
+        "eatf_verify_ms": 181.767,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "N4",
+      "title": "negative family 4: missing long-term validation material",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "archive-material-insufficient"
+      ],
+      "vmr_rp_a": {
+        "verdict": "reject",
+        "reason_codes": [
+          "archive-material-insufficient"
+        ]
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-issuer-untrusted",
+          "archive-material-insufficient",
+          "identity-issuer-untrusted"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "reject",
+        "reason_codes": [
+          "archive-material-insufficient"
+        ]
+      },
+      "issuer_combo": "identity-root-a+action-root-a",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 9274,
+        "eatf_verify_ms": 180.158,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "N5",
+      "title": "negative family 5: wrong-policy receipt (valid signature, unaccepted scope)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "scope-mismatch"
+      ],
+      "vmr_rp_a": {
+        "verdict": "reject",
+        "reason_codes": [
+          "scope-mismatch"
+        ]
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-issuer-untrusted",
+          "identity-issuer-untrusted",
+          "scope-mismatch"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "reject",
+        "reason_codes": [
+          "scope-mismatch"
+        ]
+      },
+      "issuer_combo": "identity-root-a+action-root-a",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 9247,
+        "eatf_verify_ms": 177.0,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "N6",
+      "title": "negative family 6: broker downgrade (untrusted low-assurance broker)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "broker-policy-violation"
+      ],
+      "vmr_rp_a": {
+        "verdict": "reject",
+        "reason_codes": [
+          "broker-policy-violation"
+        ]
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-issuer-untrusted",
+          "broker-policy-violation",
+          "identity-issuer-untrusted"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "reject",
+        "reason_codes": [
+          "broker-policy-violation"
+        ]
+      },
+      "issuer_combo": "identity-root-a+action-root-a",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 9458,
+        "eatf_verify_ms": 176.084,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "N7",
+      "title": "negative family 7: expired algorithm profile",
+      "class": "negative",
+      "expected_verdict": "indeterminate",
+      "expected_reason_codes": [
+        "algorithm-unaccepted"
+      ],
+      "vmr_rp_a": {
+        "verdict": "indeterminate",
+        "reason_codes": [
+          "algorithm-unaccepted"
+        ]
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-issuer-untrusted",
+          "algorithm-unaccepted",
+          "identity-issuer-untrusted"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "indeterminate",
+        "reason_codes": [
+          "algorithm-unaccepted"
+        ]
+      },
+      "issuer_combo": "identity-root-a+action-root-a",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 9253,
+        "eatf_verify_ms": 176.397,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "N8",
+      "title": "negative family 8: key substitution (claims a trusted issuer, signed under a different root's key)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "issuer-key-mismatch"
+      ],
+      "vmr_rp_a": {
+        "verdict": "reject",
+        "reason_codes": [
+          "issuer-key-mismatch"
+        ]
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-issuer-untrusted",
+          "identity-issuer-untrusted",
+          "issuer-key-mismatch"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "reject",
+        "reason_codes": [
+          "issuer-key-mismatch"
+        ]
+      },
+      "issuer_combo": "identity-root-a+action-root-a",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 9287,
+        "eatf_verify_ms": 179.86,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "N9",
+      "title": "negative family 9: no action receipt (identity assertion only)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "action-receipt-missing"
+      ],
+      "vmr_rp_a": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-receipt-missing"
+        ]
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-receipt-missing",
+          "identity-issuer-untrusted"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-receipt-missing"
+        ]
+      },
+      "issuer_combo": "identity-root-a+?",
+      "metrics": {
+        "packages": 1,
+        "package_size_bytes": 4569,
+        "eatf_verify_ms": 89.468,
+        "network_lookups_required": 0
+      }
+    },
+    {
+      "case_id": "N10",
+      "title": "negative family 10: wrong-policy receipt issued OUTSIDE the single-root baseline's trusted root (pair b)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "scope-mismatch"
+      ],
+      "vmr_rp_a": {
+        "verdict": "reject",
+        "reason_codes": [
+          "scope-mismatch"
+        ]
+      },
+      "vmr_pass": true,
+      "vmr_rp_b": {
+        "verdict": "reject",
+        "reason_codes": [
+          "scope-mismatch"
+        ]
+      },
+      "b1_one_registry": {
+        "verdict": "reject",
+        "reasons": [
+          "registry-unresolvable:action-root-b,identity-root-b"
+        ]
+      },
+      "b2_signature_only": {
+        "verdict": "accept",
+        "reasons": []
+      },
+      "b3_single_root_policy_bound": {
+        "verdict": "reject",
+        "reason_codes": [
+          "action-issuer-untrusted",
+          "identity-issuer-untrusted",
+          "scope-mismatch"
+        ]
+      },
+      "issuer_combo": "identity-root-b+action-root-b",
+      "metrics": {
+        "packages": 2,
+        "package_size_bytes": 9284,
+        "eatf_verify_ms": 183.05,
+        "network_lookups_required": 0
+      }
+    }
+  ]
+}

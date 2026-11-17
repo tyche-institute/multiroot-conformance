@@ -1,0 +1,419 @@
+{
+  "schema": "urn:lajc-brokered-evidence-corpus-plan:1.0",
+  "verification_time": "2026-07-23T12:00:00Z",
+  "note": "LAJC brokered-evidence conformance corpus. 5 positive fixtures + 10 negative-control families (manuscript Section 8.2), incl. key-substitution and missing-action-receipt controls added 2026-07-24 after referee review. Distinct from a related prior-work corpus: different case set, adds B1/B2 single-root baselines and the two-policy portability check. Substrate: evidence-package signer/verifier resolved via $EATF_ROOT.",
+  "cases": [
+    {
+      "case_id": "P1",
+      "title": "positive: pair-a non-brokered offline",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-a",
+          "subject": "agent-alpha",
+          "key": "a"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-a",
+          "identity": "id1",
+          "subject": "agent-alpha",
+          "scope": "agent:records",
+          "payload": "P1 pair-a action record",
+          "key": "a"
+        }
+      ]
+    },
+    {
+      "case_id": "P2",
+      "title": "positive: pair-b non-brokered (second issuer pair, second keypair)",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-b",
+          "subject": "agent-beta",
+          "key": "b"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-b",
+          "identity": "id1",
+          "subject": "agent-beta",
+          "scope": "agent:analysis",
+          "payload": "P2 pair-b action record",
+          "key": "b"
+        }
+      ]
+    },
+    {
+      "case_id": "P3",
+      "title": "positive: cross-pair (identity root a, action root b)",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-a",
+          "subject": "agent-gamma",
+          "key": "a"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-b",
+          "identity": "id1",
+          "subject": "agent-gamma",
+          "scope": "agent:records",
+          "payload": "P3 cross-pair action record",
+          "key": "b"
+        }
+      ]
+    },
+    {
+      "case_id": "P4",
+      "title": "positive: brokered via broker-eu-1 (pair a)",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-a",
+          "subject": "agent-delta",
+          "key": "a"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-a",
+          "identity": "id1",
+          "subject": "agent-delta",
+          "scope": "agent:records",
+          "payload": "P4P5 shared broker-routed action record",
+          "key": "a",
+          "broker": "broker-eu-1",
+          "broker_assurance": "high"
+        }
+      ]
+    },
+    {
+      "case_id": "P5",
+      "title": "positive: same action brokered via broker-eu-2 (transparency pair for P4)",
+      "class": "positive",
+      "expected_verdict": "accept",
+      "expected_reason_codes": [],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-a",
+          "subject": "agent-delta",
+          "key": "a"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-a",
+          "identity": "id1",
+          "subject": "agent-delta",
+          "scope": "agent:records",
+          "payload": "P4P5 shared broker-routed action record",
+          "key": "a",
+          "broker": "broker-eu-2",
+          "broker_assurance": "high"
+        }
+      ]
+    },
+    {
+      "case_id": "N1",
+      "title": "negative family 1: tampered payload (post-signature byte flip)",
+      "class": "negative",
+      "tamper_action_payload": true,
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "eatf-package-invalid"
+      ],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-a",
+          "subject": "agent-n1",
+          "key": "a"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-a",
+          "identity": "id1",
+          "subject": "agent-n1",
+          "scope": "agent:records",
+          "payload": "N1 action record to be tampered",
+          "key": "a"
+        }
+      ]
+    },
+    {
+      "case_id": "N2",
+      "title": "negative family 2: stale identity assertion (expired before verification time)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "identity-expired"
+      ],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-a",
+          "subject": "agent-n2",
+          "key": "a",
+          "valid_from": "2026-01-01T00:00:00Z",
+          "valid_to": "2026-07-01T00:00:00Z"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-a",
+          "identity": "id1",
+          "subject": "agent-n2",
+          "scope": "agent:records",
+          "payload": "N2 action under expired identity",
+          "key": "a"
+        }
+      ]
+    },
+    {
+      "case_id": "N3",
+      "title": "negative family 3: broken chain pointer (action references absent identity)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "identity-hash-missing"
+      ],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-a",
+          "subject": "agent-n3",
+          "key": "a"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-a",
+          "identity": "id-nonexistent",
+          "subject": "agent-n3",
+          "scope": "agent:records",
+          "payload": "N3 action with dangling identity pointer",
+          "key": "a"
+        }
+      ]
+    },
+    {
+      "case_id": "N4",
+      "title": "negative family 4: missing long-term validation material",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "archive-material-insufficient"
+      ],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-a",
+          "subject": "agent-n4",
+          "key": "a"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-a",
+          "identity": "id1",
+          "subject": "agent-n4",
+          "scope": "agent:records",
+          "payload": "N4 action without embedded validation material",
+          "key": "a",
+          "validation_material_embedded": false
+        }
+      ]
+    },
+    {
+      "case_id": "N5",
+      "title": "negative family 5: wrong-policy receipt (valid signature, unaccepted scope)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "scope-mismatch"
+      ],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-a",
+          "subject": "agent-n5",
+          "key": "a"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-a",
+          "identity": "id1",
+          "subject": "agent-n5",
+          "scope": "agent:payments",
+          "payload": "N5 action outside accepted scope",
+          "key": "a"
+        }
+      ]
+    },
+    {
+      "case_id": "N6",
+      "title": "negative family 6: broker downgrade (untrusted low-assurance broker)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "broker-policy-violation"
+      ],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-a",
+          "subject": "agent-n6",
+          "key": "a"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-a",
+          "identity": "id1",
+          "subject": "agent-n6",
+          "scope": "agent:records",
+          "payload": "N6 action routed through downgrading broker",
+          "key": "a",
+          "broker": "broker-x-cheap",
+          "broker_assurance": "low"
+        }
+      ]
+    },
+    {
+      "case_id": "N7",
+      "title": "negative family 7: expired algorithm profile",
+      "class": "negative",
+      "expected_verdict": "indeterminate",
+      "expected_reason_codes": [
+        "algorithm-unaccepted"
+      ],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-a",
+          "subject": "agent-n7",
+          "key": "a"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-a",
+          "identity": "id1",
+          "subject": "agent-n7",
+          "scope": "agent:records",
+          "payload": "N7 action under legacy algorithm profile",
+          "key": "a",
+          "algorithm_profile": "rsa-sha1-legacy"
+        }
+      ]
+    },
+    {
+      "case_id": "N8",
+      "title": "negative family 8: key substitution (claims a trusted issuer, signed under a different root's key)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "issuer-key-mismatch"
+      ],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-a",
+          "subject": "agent-n8",
+          "key": "a"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-a",
+          "identity": "id1",
+          "subject": "agent-n8",
+          "scope": "agent:records",
+          "payload": "N8 action claiming root-a but signed under root-b key",
+          "key": "a",
+          "sign_key": "b"
+        }
+      ]
+    },
+    {
+      "case_id": "N9",
+      "title": "negative family 9: no action receipt (identity assertion only)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "action-receipt-missing"
+      ],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-a",
+          "subject": "agent-n9",
+          "key": "a"
+        }
+      ],
+      "actions": []
+    },
+    {
+      "case_id": "N10",
+      "title": "negative family 10: wrong-policy receipt issued OUTSIDE the single-root baseline's trusted root (pair b)",
+      "class": "negative",
+      "expected_verdict": "reject",
+      "expected_reason_codes": [
+        "scope-mismatch"
+      ],
+      "identities": [
+        {
+          "id": "id1",
+          "issuer": "identity-root-b",
+          "subject": "agent-n10",
+          "key": "b"
+        }
+      ],
+      "actions": [
+        {
+          "id": "act1",
+          "issuer": "action-root-b",
+          "identity": "id1",
+          "subject": "agent-n10",
+          "scope": "agent:payments",
+          "payload": "N10 out-of-root action with unaccepted scope",
+          "key": "b"
+        }
+      ]
+    }
+  ]
+}

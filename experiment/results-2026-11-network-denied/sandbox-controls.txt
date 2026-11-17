@@ -1,0 +1,44 @@
+## date -u
+2026-11-17T20:11:26Z
+## interfaces outside the sandbox, other than lo (count only)
+56
+## ip -o link, inside: bwrap --unshare-net --dev-bind / / ip -o link
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+## ip -o addr, inside
+1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
+1: lo    inet6 ::1/128 scope host \       valid_lft forever preferred_lft forever
+## control: connect to 192.0.2.1:9 (TEST-NET-1, RFC 5737) and to 127.0.0.1:9, inside, under the same strace filter as the run
+192.0.2.1:9 ENETUNREACH
+127.0.0.1:9 ECONNREFUSED
+## control trace (strace -f -e trace=%network)
+1684594 getsockname(0, {sa_family=AF_UNIX}, [128 => 2]) = 0
+1684594 getsockopt(0, SOL_SOCKET, SO_TYPE, [1], [4]) = 0
+1684594 socket(AF_INET, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_IP) = 21
+1684594 connect(21, {sa_family=AF_INET, sin_port=htons(9), sin_addr=inet_addr("192.0.2.1")}, 16) = -1 ENETUNREACH (Network is unreachable)
+1684594 getsockname(21, {sa_family=AF_INET, sin_port=htons(0), sin_addr=inet_addr("0.0.0.0")}, [128 => 16]) = 0
+1684594 socket(AF_INET, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_IP) = 21
+1684594 connect(21, {sa_family=AF_INET, sin_port=htons(9), sin_addr=inet_addr("127.0.0.1")}, 16) = -1 EINPROGRESS (Operation now in progress)
+1684594 getsockopt(21, SOL_SOCKET, SO_ERROR, [ECONNREFUSED], [4]) = 0
+1684598 +++ exited with 0 +++
+1684597 +++ exited with 0 +++
+1684596 +++ exited with 0 +++
+1684599 +++ exited with 0 +++
+1684595 +++ exited with 0 +++
+1684610 +++ exited with 0 +++
+1684594 +++ exited with 0 +++
+## control again, stdin from /dev/null as in the run
+192.0.2.1:9 ENETUNREACH
+127.0.0.1:9 ECONNREFUSED
+1687767 socket(AF_INET, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_IP) = 21
+1687767 connect(21, {sa_family=AF_INET, sin_port=htons(9), sin_addr=inet_addr("192.0.2.1")}, 16) = -1 ENETUNREACH (Network is unreachable)
+1687767 getsockname(21, {sa_family=AF_INET, sin_port=htons(0), sin_addr=inet_addr("0.0.0.0")}, [128 => 16]) = 0
+1687767 socket(AF_INET, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_IP) = 21
+1687767 connect(21, {sa_family=AF_INET, sin_port=htons(9), sin_addr=inet_addr("127.0.0.1")}, 16) = -1 EINPROGRESS (Operation now in progress)
+1687767 getsockopt(21, SOL_SOCKET, SO_ERROR, [ECONNREFUSED], [4]) = 0
+1687774 +++ exited with 0 +++
+1687773 +++ exited with 0 +++
+1687775 +++ exited with 0 +++
+1687772 +++ exited with 0 +++
+1687776 +++ exited with 0 +++
+1687780 +++ exited with 0 +++
+1687767 +++ exited with 0 +++

@@ -1,0 +1,6 @@
+V-MR: 15/15 cases passed (verdict+reason contract)
+  V-MR (rp-a): TA 5/5, FA-rate 0/10, FR []
+  B3 single-root policy-bound: TA 3/5, FA-rate 0/10, FR ['P2', 'P3']
+  B1 one-registry: TA 3/5, FA-rate 8/10, FR ['P2', 'P3']
+  B2 signature-only: TA 5/5, FA-rate 9/10, FR []
+Wrote results/evaluation.json and results/evaluation-summary.md

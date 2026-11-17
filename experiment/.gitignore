@@ -1,0 +1,5 @@
+# Dev/test signing key: regenerated automatically by scripts/build_corpus.py on
+# first run. Never commit a private key, even a throwaway research one; the
+# committed fixtures preserve the exact evidence, and corpus verdicts do not
+# depend on which keypair signed them.
+keys/*.key

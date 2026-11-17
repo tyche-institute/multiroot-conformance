@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "Please cite the article (preferred-citation). To cite this package, use the entry below."
+type: dataset
+title: "Isolating Federation from Policy Depth: conformance pilot package"
+version: "1.0.0"
+date-released: "2026-11-17"
+doi: "10.5281/zenodo.24324993"
+license:
+  - MIT
+  - CC-BY-4.0
+repository-code: "https://github.com/tyche-institute/multiroot-conformance"
+authors:
+  - family-names: Sokolov
+    given-names: Anton
+    affiliation: "Tyche Institute, Tallinn, Estonia"
+    orcid: "https://orcid.org/0000-0003-2452-7096"
+keywords:
+  - multi-root trust
+  - AI agents
+  - evidence packages
+  - conformance testing
+  - negative controls
+preferred-citation:
+  type: article
+  title: "Isolating Federation from Policy Depth: A Conformance Protocol for Multi-Root AI-Agent Evidence"
+  authors:
+    - family-names: Sokolov
+      given-names: Anton
+      affiliation: "Tyche Institute, Tallinn, Estonia"
+      orcid: "https://orcid.org/0000-0003-2452-7096"
+  journal: "Latin-American Journal of Computing"
+  status: in-press

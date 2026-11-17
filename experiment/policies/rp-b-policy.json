@@ -1,0 +1,27 @@
+{
+  "policy_id": "rp-b-offline-pairb-only-v1",
+  "comment": "Relying party B: deliberately narrower policy for the R8 portability check. Trusts only issuer pair b and no brokers. Verdict differences vs rp-a must be explained entirely by this policy delta.",
+  "offline_only": true,
+  "trusted_identity_issuers": ["identity-root-b"],
+  "trusted_action_issuers": ["action-root-b"],
+  "accepted_identity_methods": ["did:web", "x509-dev-anchor"],
+  "min_identity_assurance": "medium",
+  "accepted_scopes": ["agent:records", "agent:analysis"],
+  "require_embedded_validation_material": true,
+  "accepted_algorithm_profiles": ["rsa-sha256-transitional", "rsa-sha256+pqc"],
+  "archive_algorithm_profiles": ["rsa-sha256-transitional"],
+  "archive_mode": false,
+  "revocation": {
+    "required": true,
+    "max_age_days": 7,
+    "missing": "reject",
+    "stale": "indeterminate"
+  },
+  "broker": {
+    "trusted_brokers": [],
+    "min_assurance": "medium",
+    "require_exposed_routing": true,
+    "require_validation_material": true
+  },
+  "trust_cutoffs": {}
+}
